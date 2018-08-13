@@ -12,6 +12,7 @@ use src\business\Base;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBType;
 use src\keypair\Bytes;
+use conf\confController;
 
 class Account extends Base
 {
@@ -26,14 +27,13 @@ class Account extends Base
       * @param  [type] $sourceAddress [description]
       * @return [type]                [description]
       */
-     public function active($priKey,$pubKey,$destAddress){
+     public function active($priKey,$rawPivateKey,$pubKey,$destAddress){
       // $destAddress,$initBalance,$sourceAddress,$metadata
         $this->logger->addNotice("Account,active");
         $ret = $this->getNonce();
         $this->logger->addNotice("Account,ret",$ret);
         if($ret['status']===0){
             $nonce = $ret['nonce'];
-            // echo $nonce;
             //1Transaction
             $tran = new \Protocol\Transaction();
             $tran->setNonce($nonce);
@@ -64,28 +64,38 @@ class Account extends Base
             $tran->setOperations($opers);
             //5序列化
             $serialTran = $tran->serializeToString();
-            // $bytesOb = new Bytes();
-            // var_dump($bytesOb->getBytes($serialTran));exit;
             $this->logger->addNotice("Account,serialTran:$serialTran");
             // echo '----'.strlen($serialTran) .'------';exit;
-
+            //解析用
             // $tranParse = new \Protocol\Transaction();Parses a protocol buffer contained in a string.
             // $tranParse->mergeFromString($serialTran);
             // var_dump($tranParse->getOperations()[0]);
           // return $this->responseJson($ret,0);
           
             //6通过私钥对交易（transaction_blob）签名。
-            $signData = $this->ED25519Sign($serialTran,$priKey,$pubKey);
+            $signData = $this->ED25519Sign($serialTran,$rawPivateKey,$pubKey);
             $this->logger->addNotice("Account,signData:$signData");
             //7填充数据
             $fill_data = $this->fillData($serialTran,$signData,$pubKey);
             $this->logger->addNotice("Account,fill_data",$fill_data);
+
             //8发送
-            $transactionUrl = $this->getTransactionUrl();
+            $conf = new confController();
+            $confinfo = $conf->getConfig();
+
+            $transactionUrl = $confinfo['base']['testUrl'] . "submitTransaction" ;
             $this->logger->addNotice("Account,transactionUrl:$transactionUrl");
-            $ret = $this->request_post($this->transactionUrl,json_encode($fill_data));
+            // echo $transactionUrl;exit;
+            $ret = $this->request_post($transactionUrl,$fill_data);
             $this->logger->addNotice("Account,ret:".$ret);
             var_dump($ret);exit;
+            if($ret['success_count']==1){
+                //success
+            }
+            else{
+                //fail
+
+            }
         }
         else{
           echo "fail";

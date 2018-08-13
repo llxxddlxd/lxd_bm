@@ -19,10 +19,8 @@ abstract class Base{
         $log = new Logger('name');
         $date = date("Ymd");
         $filepath= dirname(dirname(dirname(__FILE__))).'/log/'.$date.'.log';
-        $log->pushHandler(new StreamHandler( $filepath, Logger::NOTICE));
+        $log->pushHandler(new StreamHandler( $filepath, Logger::DEBUG));
 
-        // add records to the log
-        // $log->addWarning('Foo');
         // $log->addError('Bar');
         $this->logger = $log;
     }
@@ -147,7 +145,7 @@ abstract class Base{
      */
     public function ED25519($byteStr){
         //进来是32位字节 字符串，返回也是32位字符串
-        // return  ed25519_publickey($byteStr);
+        return ed25519_publickey($byteStr);
         return $byteStr;
     }
 

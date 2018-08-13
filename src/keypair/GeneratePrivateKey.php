@@ -45,6 +45,7 @@ class GeneratePrivateKey extends Base{
 		//1 字节数组，256位，32个字节的数组
 		$randArray = $this->privateRawKey;
 		
+		$this->logger->addNotice("setPriKey",$randArray);
 		// var_dump($randArray);
 		//2 version 固定？？	
 		$version = $this->getVersion();

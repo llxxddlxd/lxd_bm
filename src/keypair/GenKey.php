@@ -51,6 +51,7 @@ class GenKey  extends Base
 		$this->logger->addNotice("privateKey",['privateKey:'=>$this->privateKey]);
 		// echo strlen($priv->getPriKey()) ."<br>";
 		$rawKey = $priv->getRawKey();
+		
 		$this->logger->addNotice("rawKey",$rawKey);
 		//2 公钥
 		$pub = new GeneratePublicKey();

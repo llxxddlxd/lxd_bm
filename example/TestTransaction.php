@@ -3,9 +3,9 @@ namespace example;
 use src\business\Account;
 
 class TestTransaction{
-	public function test($priKey,$pubKey,$address){
+	public function test($priKey,$rawPivateKey,$pubKey,$address){
 		$Account = new Account();
-		$Account->active($priKey,$pubKey,$address);
+		$Account->active($priKey,$rawPivateKey,$pubKey,$address);
 	}
 	
 }
