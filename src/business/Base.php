@@ -29,9 +29,9 @@ use conf\confController;
 use conf\errDesc;
 class Base{
     public $logger;
-    private $privKey;
-    private $pubKey;
-    private $address; 
+    // private $privKey;
+    // private $pubKey;
+    // private $address; 
     private $transactionUrl;
 
     public function __construct()
@@ -49,31 +49,31 @@ class Base{
         $this->logger = $log;
         $this->transactionUrl = "http://seed1.bumotest.io/submitTransaction";
     }
-    /**
-     * [setPriKey description]
-     * @param [type] $key [description]
-     */
-     public function setPriKey($key){
-        $this->logger->addNotice("business-base,privatekey:$key");
-        $this->privKey = $key;
-     }
-     /**
-      * [setPubKey description]
-      * @param [type] $key [description]
-      */
-     public function setPubKey($key){
-        $this->logger->addNotice("business-base,publickey:$key");
-        $this->pubKey = $key;
-     }
-     /**
-      * [setaddress description]
-      * @param  [type] $address [description]
-      * @return [type]          [description]
-      */
-     public function setaddress($address){
-        $this->logger->addNotice("business-base,address:$address");
-        $this->address = $address;
-     } 
+    // /**
+    //  * [setPriKey description]
+    //  * @param [type] $key [description]
+    //  */
+    //  public function setPriKey($key){
+    //     $this->logger->addNotice("business-base,privatekey:$key");
+    //     $this->privKey = $key;
+    //  }
+    //  /**
+    //   * [setPubKey description]
+    //   * @param [type] $key [description]
+    //   */
+    //  public function setPubKey($key){
+    //     $this->logger->addNotice("business-base,publickey:$key");
+    //     $this->pubKey = $key;
+    //  }
+    //  /**
+    //   * [setaddress description]
+    //   * @param  [type] $address [description]
+    //   * @return [type]          [description]
+    //   */
+    //  public function setaddress($address){
+    //     $this->logger->addNotice("business-base,address:$address");
+    //     $this->address = $address;
+    //  } 
      
 	 
     /**

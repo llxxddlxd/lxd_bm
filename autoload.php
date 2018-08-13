@@ -1,4 +1,5 @@
 <?php
+ini_set('date.timezone','Asia/Shanghai');
 function autoload($className)
 {
     $className = ltrim($className, '\\');
