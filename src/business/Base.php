@@ -1,7 +1,7 @@
 <?php
 /**
  * User: lixd
- * Date: 2018/08/08
+ * Date: 2018/08/10
  * Time: 10:00
  * description:Base
  */
@@ -17,6 +17,8 @@ require $baseurl."GPBMetadata/Chain.php";
 include $baseurl."Protocol/Transaction.php";
 include $baseurl."Protocol/Operation.php";
 include $baseurl."Protocol/OperationCreateAccount.php";
+include $baseurl."Protocol/AccountThreshold.php";
+include $baseurl."Protocol/accountPrivilege.php";
 
 //log
 use Monolog\Logger;
