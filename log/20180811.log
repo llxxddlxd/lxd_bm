@@ -1,0 +1,337 @@
+[2018-08-11 10:24:23] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:24:23] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:24:23] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:24:23] name.WARNING: Account,active [] []
+[2018-08-11 10:24:23] name.NOTICE: getNonce [] []
+[2018-08-11 10:24:23] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/"}} []
+[2018-08-11 10:30:16] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:30:16] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:30:16] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:30:16] name.WARNING: Account,active [] []
+[2018-08-11 10:30:16] name.NOTICE: getNonce [] []
+[2018-08-11 10:30:16] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:30:16] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:30:42] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:30:42] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:30:42] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:30:42] name.WARNING: Account,active [] []
+[2018-08-11 10:30:42] name.NOTICE: getNonce [] []
+[2018-08-11 10:30:42] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:30:42] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:30:55] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:30:55] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:30:55] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:30:55] name.WARNING: Account,active [] []
+[2018-08-11 10:30:55] name.NOTICE: getNonce [] []
+[2018-08-11 10:30:55] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:30:55] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:30:55] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:32:25] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:32:25] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:32:25] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:32:25] name.WARNING: Account,active [] []
+[2018-08-11 10:32:25] name.NOTICE: getNonce [] []
+[2018-08-11 10:32:25] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:32:25] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:32:25] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:33:53] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:33:53] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:33:53] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:33:53] name.WARNING: Account,active [] []
+[2018-08-11 10:33:53] name.NOTICE: getNonce [] []
+[2018-08-11 10:33:53] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:33:53] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:33:53] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:36:56] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:36:56] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:36:56] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:36:56] name.WARNING: Account,active [] []
+[2018-08-11 10:36:56] name.NOTICE: getNonce [] []
+[2018-08-11 10:36:56] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:36:56] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:36:56] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:37:38] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:37:38] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:37:38] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:37:38] name.WARNING: Account,active [] []
+[2018-08-11 10:37:38] name.NOTICE: getNonce [] []
+[2018-08-11 10:37:38] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:37:38] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:37:39] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:38:47] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:38:47] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:38:47] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:38:47] name.NOTICE: Account,active [] []
+[2018-08-11 10:38:47] name.NOTICE: getNonce [] []
+[2018-08-11 10:38:47] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:38:47] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:38:47] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:38:47] name.NOTICE: Account,ret {"status":0,"nonce":18} []
+[2018-08-11 10:45:25] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:45:25] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:45:25] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:45:25] name.NOTICE: Account,active [] []
+[2018-08-11 10:45:25] name.NOTICE: getNonce [] []
+[2018-08-11 10:45:25] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:45:25] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:45:25] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:45:25] name.NOTICE: Account,ret {"status":0,"nonce":18} []
+[2018-08-11 10:45:25] name.NOTICE: response success data {"status":0,"desc":"OK","nonce":18} []
+[2018-08-11 10:48:20] name.NOTICE: business-base,privatekey:privbi9xepr8n747JJBkRAV3hgUyh1dRB9Vw3btxGRoV8TwXephm61dx [] []
+[2018-08-11 10:48:20] name.NOTICE: business-base,publickey:b01fdfbc8174877b8384b14eb17fd6a1acd6927cedcf24ca1560373b5a806488144435e6d6 [] []
+[2018-08-11 10:48:20] name.NOTICE: business-base,address:buQdxCQJUaj2Rp4Vi1F3TG5uimcctV6Rc1aP [] []
+[2018-08-11 10:48:20] name.NOTICE: Account,active [] []
+[2018-08-11 10:48:20] name.NOTICE: getNonce [] []
+[2018-08-11 10:48:20] name.NOTICE: getNonce,config {"base":{"testUrl":"http://seed1.bumotest.io:26002/","sourceAddress":"buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"}} []
+[2018-08-11 10:48:20] name.NOTICE: getNonce,baseUrl:http://seed1.bumotest.io:26002/getAccount?address=buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw [] []
+[2018-08-11 10:48:20] name.NOTICE: getNonce,result:{
+   "error_code" : 0,
+   "result" : {
+      "address" : "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw",
+      "assets" : [
+         {
+            "amount" : 1000000000,
+            "key" : {
+               "code" : "HNC",
+               "issuer" : "buQBjJD1BSJ7nzAbzdTenAhpFjmxRVEEtmxH"
+            }
+         }
+      ],
+      "assets_hash" : "3bf279af496877a51303e91c36d42d64ba9d414de8c038719b842e6421a9dae0",
+      "balance" : 5725484100,
+      "metadatas" : [
+         {
+            "key" : "20180704",
+            "value" : "test",
+            "version" : 3
+         }
+      ],
+      "metadatas_hash" : "bb0a53db3f712846602cfaab1d8dcc67acaa27bd1f86873a29057512fd0419dd",
+      "nonce" : 18,
+      "priv" : {
+         "master_weight" : 1,
+         "thresholds" : {
+            "tx_threshold" : 1
+         }
+      }
+   }
+} [] []
+[2018-08-11 10:48:20] name.NOTICE: Account,ret {"status":0,"nonce":18} []
+[2018-08-11 10:48:20] name.NOTICE: response success data {"status":0,"desc":"OK","nonce":18} []
