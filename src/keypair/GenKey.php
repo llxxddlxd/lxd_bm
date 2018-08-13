@@ -19,6 +19,7 @@ class GenKey  extends Base
 	private $privateKey;
 	private $publicKey;
 	private $address;
+	private $privateRawKey;
 	
 	public function __construct()
 	{
@@ -50,12 +51,12 @@ class GenKey  extends Base
 		$this->privateKey = $priv->getPriKey();
 		$this->logger->addNotice("privateKey",['privateKey:'=>$this->privateKey]);
 		// echo strlen($priv->getPriKey()) ."<br>";
-		$rawKey = $priv->getRawKey();
+		$this->privateRawKey = $priv->getRawKey();
 		
-		$this->logger->addNotice("rawKey",$rawKey);
+		$this->logger->addNotice("rawKey",$this->privateRawKey);
 		//2 公钥
 		$pub = new GeneratePublicKey();
-		$pub->setRawKey($rawKey);		
+		$pub->setRawKey($this->privateRawKey);		
 		$pub->setPubKey();		
 		$this->publicKey = $pub->getPubKey();	
 		$this->logger->addNotice("publicKey",['publicKey:'=>$this->publicKey]);	
@@ -74,6 +75,8 @@ class GenKey  extends Base
 	}
 	public function getPrivateKey(){
 		return $this->privateKey;
+	}public function getRawPrivateKey(){
+		return $this->privateRawKey;
 	}
 	public function getAddress(){
 		return $this->address;

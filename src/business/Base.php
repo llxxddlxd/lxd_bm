@@ -169,10 +169,12 @@ class Base{
                 $respArr = array_merge($respArr, $data);
             }
             $this->logger->addNotice("response success data",$respArr);
-            // return json($respArr, 200);
+            header("Content-Type:text/html;charset=utf-8");
+            echo urldecode(json_encode($respArr));
         }else{
             $this->logger->addError("response unknown data type");
-            // return json([],500);
+            // header("Content-Type:text/html;charset=utf-8");
+            // echo urldecode(json_encode($result));
         }
     }
 

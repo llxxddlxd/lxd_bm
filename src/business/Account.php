@@ -70,7 +70,6 @@ class Account extends Base
             // $tranParse = new \Protocol\Transaction();Parses a protocol buffer contained in a string.
             // $tranParse->mergeFromString($serialTran);
             // var_dump($tranParse->getOperations()[0]);
-          // return $this->responseJson($ret,0);
           
             //6通过私钥对交易（transaction_blob）签名。
             $signData = $this->ED25519Sign($serialTran,$rawPivateKey,$pubKey);
@@ -91,10 +90,11 @@ class Account extends Base
             var_dump($ret);exit;
             if($ret['success_count']==1){
                 //success
+                return $this->responseJson(null,0);
             }
             else{
                 //fail
-
+                return $this->responseJson(null,3001);
             }
         }
         else{
