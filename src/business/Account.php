@@ -1,16 +1,17 @@
 <?php
 /**
  * User: lixd
- * Date: 2018/08/08
+ * Date: 2018/08/10
  * Time: 10:00
  * description:Account
  */
 namespace src\business;
 
-
+ 
 use src\business\Base;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBType;
+use src\keypair\Bytes;
 
 class Account extends Base
 {
@@ -50,18 +51,26 @@ class Account extends Base
             $createAccount = new \Protocol\OperationCreateAccount();
             $createAccount->setDestAddress($destAddress);
             $createAccount->setInitBalance(123456789);
-            $oper->setCreateAccount($createAccount);
+            $accountThreshold = new \Protocol\AccountThreshold();
+            $accountThreshold->setTxThreshold(1);
+            $accountPrivilege = new \Protocol\accountPrivilege();
+            $accountPrivilege->setMasterWeight(1);
+            $accountPrivilege->setThresholds($accountThreshold);
+
+            $createAccount->setPriv($accountPrivilege);
             //4填充到operation中
+            $oper->setCreateAccount($createAccount);
             $opers[] = $oper;
             $tran->setOperations($opers);
             //5序列化
             $serialTran = $tran->serializeToString();
+            // $bytesOb = new Bytes();
+            // var_dump($bytesOb->getBytes($serialTran));exit;
             $this->logger->addNotice("Account,serialTran:$serialTran");
             // echo '----'.strlen($serialTran) .'------';exit;
 
-            $tranParse = new \Protocol\Transaction();
-            $tranParse->mergeFromString($serialTran);
-
+            // $tranParse = new \Protocol\Transaction();Parses a protocol buffer contained in a string.
+            // $tranParse->mergeFromString($serialTran);
             // var_dump($tranParse->getOperations()[0]);
           // return $this->responseJson($ret,0);
           
@@ -76,6 +85,7 @@ class Account extends Base
             $this->logger->addNotice("Account,transactionUrl:$transactionUrl");
             $ret = $this->request_post($this->transactionUrl,json_encode($fill_data));
             $this->logger->addNotice("Account,ret:".$ret);
+            var_dump($ret);exit;
         }
         else{
           echo "fail";
