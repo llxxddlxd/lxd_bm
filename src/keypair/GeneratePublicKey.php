@@ -84,7 +84,7 @@ class GeneratePublicKey extends Base{
 		// var_dump($rawPubkey);exit;
 		//5 16进制编码  字符数组转字符串
 		$charStr = $Bytes->toStr($rawPubkey);
-		$this->publicKey=  $this->hexEncode($charStr);
+		$this->publicKey = $this->hexEncode($charStr);
 		
 	}
 }

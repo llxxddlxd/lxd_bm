@@ -12,8 +12,12 @@ use Monolog\Handler\StreamHandler;
 
 abstract class Base{
     public $logger;
+    private $alphabet;
 
     function __construct(){
+
+        // $alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'; //传统
+        $this->alphabet = '123456789AbCDEFGHJKLMNPQRSTuVWXYZaBcdefghijkmnopqrstUvwxyz'; //bumo   
 
         // create a log channel
         $log = new Logger('name');
@@ -61,9 +65,7 @@ abstract class Base{
 	 */
 	public function base58Encode($string)
     {
-        // $alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'; //传统
-        $alphabet = '123456789AbCDEFGHJKLMNPQRSTuVWXYZaBcdefghijkmnopqrstUvwxyz'; //bumo   
-        $base = strlen($alphabet);
+        $base = strlen($this->alphabet);
         if (is_string($string) === false) {
             return false;
         }
@@ -82,17 +84,17 @@ abstract class Base{
         while ($decimal >= $base) {
             $div = bcdiv($decimal, $base, 0);
             $mod = bcmod($decimal, $base);
-            $output .= $alphabet[$mod];
+            $output .= $this->alphabet[$mod];
             $decimal = $div;
         }
         
         if ($decimal > 0) {
-            $output .= $alphabet[$decimal];
+            $output .= $this->alphabet[$decimal];
         }
         $output = strrev($output);
         foreach ($bytes as $byte) {
             if ($byte === 0) {
-                $output = $alphabet[0] . $output;
+                $output = $this->alphabet[0] . $output;
                 continue;
             }
             break;
@@ -220,8 +222,13 @@ abstract class Base{
 	public function hexEncode($string){
  		$s = ''; 
  		for ($i=0; $i<strlen($string); $i++) { 
- 			$s .= base_convert(ord($string[$i]), 10, 16); 
- 		}
+            $temp = base_convert(ord($string[$i]), 10, 16); 
+            if(strlen($temp)<2){
+                $temp = "0".$temp;
+            }
+            $this->logger->addWarning("hexEncode,i:$i,temp:".$temp);
+ 			$s .= $temp;
+ 		} 
 // 　　　  $str = "0x" . $s; 
 		return $s; 
 	}
