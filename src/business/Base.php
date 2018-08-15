@@ -238,14 +238,11 @@ class Base{
 
 
     public function fillData($transaction_blob,$sign_data,$public_key){
-        // $ret['transaction_blob'] = "0a2462755173757248314d34726a4c6b666a7a6b7852394b584a366a537532723978424e4577100718c0843d20e8073a37080122330a246275516f50326552796d4163556d33757657675138526e6a7472536e58425866417a73561a0608011a0208012880ade204";
-        // $temp['sign_data'] = "9C86CE621A1C9368E93F332C55FDF423C087631B51E95381B80F81044714E3CE3DCF5E4634E5BE77B12ABD3C54554E834A30643ADA80D19A4A3C924D0B3FA601";
-        // $temp['public_key'] = "b00179b4adb1d3188aa1b98d6977a837bd4afdbb4813ac65472074fe3a491979bf256ba63895";
-        // $ret["signatures"] = $temp;        
-        $ret['transaction_blob'] = $transaction_blob;
         $temp['sign_data'] = $sign_data;
         $temp['public_key'] = $public_key;
-        $ret["signatures"] = $temp;
+        $ret["signatures"] = array();
+        array_push($ret["signatures"], $temp);
+        $ret['transaction_blob'] = $transaction_blob;
         return $ret;
     }
 
@@ -390,6 +387,22 @@ class Base{
         else{
             return -3;
         }
+
+    }
+
+
+    /**
+     * [getRawPrivateKey 通过私钥，获取rawkey]
+     * @return [type] [description]
+     */
+    public function getRawPrivateKey($privateKey){
+        $de58 = $this->base58Decode($privateKey);
+        $rawKey = substr($de58,4,32);
+        $byte = new Bytes();
+        $rawKeyBytes = $byte->getBytes($rawKey);
+        $ret['rawKeyString'] = $rawKey;
+        $ret['rawKeyBytes'] = $rawKeyBytes;
+        return $ret;
 
     }
 }

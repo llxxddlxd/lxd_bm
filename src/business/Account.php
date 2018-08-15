@@ -27,87 +27,95 @@ class Account extends Base
       * @param  [type] $sourceAddress [description]
       * @return [type]                [description]
       */
-     public function active($priKey,$pubKey,$destAddress,$sourceAddress,$rawPivateKey,$rawPublicKey){
-        if(!$sourceAddress){ //没有传，取配置文件中的参数
-            $conf = new confController();
-            $info = $conf->getConfig();   
-            $this->logger->addNotice("getNonce,config",$info);
-            $sourceAddress = $info['base']['sourceAddress'];
-        }
-      // $destAddress,$initBalance,$sourceAddress,$metadata
-        $this->logger->addNotice("Account,active,sourceAddress:$sourceAddress");
+     public function active($priKey,$pubKey,$destAddress,$rawPivateKey,$rawPublicKey){
+        $conf = new confController();
+        $confinfo = $conf->getConfig();   
+        $this->logger->addNotice("getNonce,config",$confinfo);
+        $sourceAddress = $confinfo['base']['sourceAddress'];
+        $sourcePriKey = $confinfo['base']['sourcePriKey'];
+        //1根据私钥，解析出原数组以及公钥
+        $sourceRawPriKeyRet = $this->getRawPrivateKey($sourcePriKey);
+        $sourceRawPriKeyString = $sourceRawPriKeyRet['rawKeyString'];
+        $sourceRawPriBytes = $sourceRawPriKeyRet['rawKeyBytes'];
+        $this->logger->addNotice("getNonce,1:".json_encode($sourceRawPriBytes));
+        //$sourceRawPubKey = $this->ED25519($sourceRawPriKey);
+        $pub = new \src\keypair\GeneratePublicKey();
+        $pub->setRawKey($sourceRawPriBytes);   
+        $sourceRawPubKey = $pub->getRawKey();
+        $pub->setPubKey();    
+        $sourcePubKey = $pub->getPubKey(); 
+        $this->logger->addNotice("getNonce,2:".($sourcePubKey));
+        //开始
+        $this->logger->addNotice("Account,active,sourceAddress:$sourceAddress,destAddress:$destAddress");
         $nonce = $this->getNonce($sourceAddress);
         $this->logger->addNotice("Account,addressNonce".$nonce);
         if($nonce<0){
             return $this->responseJson(null,3001);
         }
+        $nonce++;        
         //1Transaction
         $this->logger->addNotice("Transaction start");
         $tran = new \Protocol\Transaction();
-        // $this->logger->addNotice("Transaction new");
-        $tran->setNonce($nonce+1);
+        $tran->setNonce($nonce);
         $tran->setSourceAddress($sourceAddress);
-        $tran->setMetadata("test");
+        $tran->setMetadata(0x01);
         $tran->setGasPrice(1000);
         $tran->setFeeLimit(10000);
-        // $this->logger->addNotice("Transaction end");
         //2Operation
+        $this->logger->addNotice("opers start");
         $opers = new RepeatedField(GPBType::MESSAGE, \Protocol\Operation::class);
         $oper = new \Protocol\Operation();
         $oper->setSourceAddress($sourceAddress);
-        $oper->setMetadata("test");
+        $oper->setMetadata(0x01);
         $oper->setType(1);/*          CREATE_ACCOUNT = 1;*/
-        $this->logger->addNotice("opers end");
         //3该数据结构用于创建账户
+        $this->logger->addNotice("createAccount start");
         $createAccount = new \Protocol\OperationCreateAccount();
         $createAccount->setDestAddress($destAddress);
-        $createAccount->setInitBalance(123456789);
+        $createAccount->setInitBalance(10000000);
         $accountThreshold = new \Protocol\AccountThreshold();
         $accountThreshold->setTxThreshold(1);
         $accountPrivilege = new \Protocol\accountPrivilege();
         $accountPrivilege->setMasterWeight(1);
         $accountPrivilege->setThresholds($accountThreshold);
-        $this->logger->addNotice("createAccount end");
-
         $createAccount->setPriv($accountPrivilege);
         //4填充到operation中
         $oper->setCreateAccount($createAccount);
         $opers[] = $oper;
         $tran->setOperations($opers);
-        $this->logger->addNotice("start serialize");
         //5序列化，转16进制
+        $this->logger->addNotice("serialize start");
         $serialTran = bin2hex($tran->serializeToString());
         // echo bin2hex($serialTran);exit;
-        $ByteOb = new \src\keypair\Bytes();
-        $this->logger->addNotice("Account,serialTran:".($serialTran));
+        $this->logger->addNotice("serialize,serialTran:".($serialTran));
         //解析用
         // $tranParse = new \Protocol\Transaction();Parses a protocol buffer contained in a string.
         // $tranParse->mergeFromString($serialTran);
         // var_dump($tranParse->getOperations()[0]);
       
         //6通过私钥对交易（transaction_blob）签名。
-        $rawPivateKeyByte = $ByteOb->toStr($rawPivateKey);
-        $rawPublicKeyByte = $ByteOb->toStr($rawPublicKey);
+        $this->logger->addNotice("sign start");
+        $ByteOb = new \src\keypair\Bytes();
+        // $rawPivateKeyByte = $ByteOb->toStr($rawPivateKey);
+        $sourceRawPubKeyString = $ByteOb->toStr($sourceRawPubKey);
         
-        $signData = $this->ED25519Sign($serialTran,$rawPivateKeyByte,$rawPublicKeyByte);
+        $signData = $this->ED25519Sign($serialTran,$sourceRawPriKeyString,$sourceRawPubKeyString);
         $signDataHex = bin2hex($signData);
-        $this->logger->addNotice("Account,signData:$signDataHex");
+        $this->logger->addNotice("sign,signData:$signDataHex");
         
         //7填充数据
-        $fill_data = $this->fillData($serialTran,$signDataHex,$pubKey);
-        $this->logger->addNotice("Account,fill_data",$fill_data);
+        $fill_data = $this->fillData($serialTran,$signDataHex,$sourcePubKey);
+        $this->logger->addNotice("fill_data,info".json_encode($fill_data));
 
-        //8发送
-        $conf = new confController();
-        $confinfo = $conf->getConfig();
-
+        //8发送 
         $transactionUrl = $confinfo['base']['testUrl'] . "submitTransaction" ;
-        $this->logger->addNotice("Account,transactionUrl:$transactionUrl");
-        // var_dump($fill_data);exit;
-        $ret = $this->request_post($transactionUrl,$fill_data);
-        $this->logger->addNotice("Account,ret_end:".$ret);
+        $this->logger->addNotice("active,transactionUrl:$transactionUrl");
+        $realData['items'] = array();
+        array_push($realData['items'],$fill_data);
+        $ret = $this->request_post($transactionUrl,$realData);
+        $this->logger->addNotice("active,ret_end:".$ret);
+        echo ($ret);exit();
         $retArr = json_decode($ret,true);
-        var_dump($retArr);exit();
         if($retArr['success_count']==1){
             //success
             return $this->responseJson(null,0);
