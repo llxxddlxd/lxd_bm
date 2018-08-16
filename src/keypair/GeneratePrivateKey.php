@@ -44,41 +44,36 @@ class GeneratePrivateKey extends Base{
 	public function setPriKey(){
 		//1 字节数组，256位，32个字节的数组
 		$randArray = $this->privateRawKey;
-		
+
 		$this->logger->addNotice("setPriKey",$randArray);
 		// var_dump($randArray);
 		//2 version 固定？？	
 		$version = $this->getVersion();
 		array_unshift($randArray,$version);
-// array_push($randArray,0);
-		//3prefix  固定？？
-		$perfix = $this->getPrefix();
-		// array_unshift($randArray,0);
-		array_unshift($randArray,$perfix[0]);
-		array_unshift($randArray,$perfix[1]);
-		array_unshift($randArray,$perfix[2]);
+		//3 prefix  固定？？
+		$perfix = $this->getPrefix(); 
+		$randArray = array_merge($perfix,$randArray);
 		// var_dump($randArray);exit;
 
-		//4checksum ,两次SHA256
+		array_push($randArray,0); //特殊字符
+		
+		//4 checksum ,两次SHA256
 	 	$Bytes = new Bytes();
 		$f_charStr = $Bytes->toStr($randArray);
 		$getCheckSum = $this->getCheckSum($f_charStr);
+		$randArray = array_merge($randArray,$getCheckSum);
+		// echo json_encode($randArray);exit;
 
-		array_push($randArray,0);
-		foreach ($getCheckSum as $key => $value) {
-			array_push($randArray, $value);
-		}
-		
-		// var_dump($randArray);exit;
-		//5base58  字符数组转字符串
-		// $tmpp = [0xda,0x37,0x9f,0x00,0x01,0xfb,0xdf,0x2a,0x7b,0xe4,0x2b,0x0d,0xd3,0xa0,0xb2,0x0f,0x9a,0xe9,0x7e,0xc8,0x0e,0x1e,0x13,0xea,0x6a,0x20,0xb9,0x0f,0x68,0x06,0xe4,0xb7,0xad,0x7d,0xca,0xb1,0x83,0x24,0x92,0x45,0xea];
+		//5 base58  字符数组转字符串
+		// $tmpp = [218,55,159,1,17,236,24,183,207,250,207,180,108,87,224,39,189,99,246,85,138,120,236,78,228,233,41,192,124,109,156,104,235,66,194,24,0,30,19,80,117];
+		$this->logger->addNotice("randArray",$randArray);
 		// $randArray = $tmpp; 
 		$charStr = $Bytes->toStr($randArray);
 		// $charStr = "vVAtScBEuzr1RAJNPMKECxjKxSzgkX0T9d48";
 		// echo json_encode($randArray);exit;
 		// echo $charStr.'   ,length:'.strlen($charStr);exit;
 		$this->privateKey= $this->base58Encode($charStr);
-		
+		// echo $this->privateKey;exit;
 	}
 
 	/**
@@ -102,9 +97,9 @@ class GeneratePrivateKey extends Base{
 	 */
 	public function getPrefix(){
 		$arrayName = [
-			"0"=>159,
+			"0"=>218,
 			"1"=>55,
-			"2"=>218,
+			"2"=>159,
 		];
 		return $arrayName;
 	}
@@ -127,6 +122,10 @@ class GeneratePrivateKey extends Base{
 // $mySecret = openssl_random_pseudo_bytes(32);
 // var_dump($mySecret);
 
+	 // 	$Bytes = new Bytes();
+		// $f_charStr = $Bytes->getBytes($mySecret);
+		// $f_charStr = [17,236,24,183,207,250,207,180,108,87,224,39,189,99,246,85,138,120,236,78,228,233,41,192,124,109,156,104,235,66,194,24];
+		// return $f_charStr;
 
 		$randArray= array();
 		for($i = 0;$i<32;$i++){

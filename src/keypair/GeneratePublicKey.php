@@ -78,9 +78,12 @@ class GeneratePublicKey extends Base{
 	 	$Bytes = new Bytes();
 		$f_charStr = $Bytes->toStr($rawPubkey);
 		$getCheckSum = $this->getCheckSum($f_charStr);
-		foreach ($getCheckSum as $key => $value) {
-			array_push($rawPubkey, $value);
-		}
+
+		$rawPubkey = array_merge($rawPubkey,$getCheckSum);
+		
+		// foreach ($getCheckSum as $key => $value) {
+		// 	array_push($rawPubkey, $value);
+		// }
 		// var_dump($rawPubkey);exit;
 		//5 16进制编码  字符数组转字符串
 		$charStr = $Bytes->toStr($rawPubkey);

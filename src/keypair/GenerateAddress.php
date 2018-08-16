@@ -31,31 +31,25 @@ class GenerateAddress extends Base{
 	 */
 	public function setAddress(){
 		$rawPubkey  = $this->publicRawKey;
-
+		
 		//1checksum ,两次SHA256
 	 	$Bytes = new Bytes();
 		$f_charStr = $Bytes->toStr($rawPubkey);
-		$rawPubkey = $this->getCheckSum($f_charStr,20,2);
-		 
+		$rawPubkey = $this->getCheckSum($f_charStr,20,2,1);
+		 // var_dump($rawPubkey);exit;
 		 //2 version 固定？？	
 		$version = $this->getVersion();
 		array_unshift($rawPubkey,$version);
 
 		//3prefix  固定？？
 		$perfix = $this->getPrefix();
-		// array_unshift($rawPubkey,0);
-		array_unshift($rawPubkey,$perfix[0]);
-		array_unshift($rawPubkey,$perfix[1]);
+		$rawPubkey = array_merge($perfix,$rawPubkey);
 		// var_dump($rawPubkey);exit;
 
 		//4checksum ,两次SHA256
 		$f_charStr = $Bytes->toStr($rawPubkey);
 		$getCheckSum = $this->getCheckSum($f_charStr);
-		foreach ($getCheckSum as $key => $value) {
-			array_push($rawPubkey, $value);
-		}
-		// var_dump($rawPubkey);exit;
-
+		$rawPubkey = array_merge($rawPubkey,$getCheckSum);
 		// var_dump($rawPubkey);exit;
 		//5 16进制编码  字符数组转字符串
 		$charStr = $Bytes->toStr($rawPubkey);
@@ -77,8 +71,8 @@ class GenerateAddress extends Base{
 	 */
 	public function getPrefix(){
 			$arrayName = [
-			"0"=>86,
-			"1"=>1,
+			"0"=>1,
+			"1"=>86,
 		];
 		return $arrayName;	
 	}

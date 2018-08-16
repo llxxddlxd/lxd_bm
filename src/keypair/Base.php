@@ -54,7 +54,7 @@ abstract class Base{
 	 * @param [type] $str [description]
 	 */
 	public function SHA256($str){
-	    $re=hash('sha256', $str, true);
+	    $re=hash('sha256', $str,true);
 	    return $re;
 	}
 
@@ -172,6 +172,32 @@ abstract class Base{
         // }
     }
 
+     /**
+    * 将二进制转换成字符串
+    * @param type $str
+    * @return type
+    */
+    public function BinToStr($str){
+        $arr = explode(' ', $str);
+        foreach($arr as &$v){
+            $v = pack("H".strlen(base_convert($v, 2, 16)), base_convert($v, 2, 16));
+        }
+        return join('', $arr);
+    }
+    
+    public function StrToBin($str){
+        //1.列出每个字符
+        $arr = preg_split('/(?<!^)(?!$)/u', $str);
+        //2.unpack字符
+        foreach($arr as &$v){
+            $temp = unpack('H*', $v);
+            $v = base_convert($temp[1], 16, 2);
+            unset($temp);
+        }
+
+        return join(' ',$arr);
+    }
+
 
     /**
 	 * [getPrefix description]
@@ -179,40 +205,59 @@ abstract class Base{
 	 * @return [num] [取几个字节]
 	 * @return [dir] [1从前往后，2从后往前]
 	 */
-	public function getCheckSum($f_charStr,$num = 4,$dir=1){
+	public function getCheckSum($f_charStr,$num = 4,$dir=1,$times=2){
 		//1两次SHA256
-		// $fourthString = $Bytes->toStr($lastArray);
-		// echo $f_charStr;exit;
-		$firstSHA = $this->SHA256($f_charStr); //字符串
-        // echo strlen($firstSHA);exit;
-		$secondSHA = $this->SHA256($firstSHA);//字符串
-        // echo strlen($secondSHA);exit;
-        $lastSHA = bin2hex($secondSHA); //ascii转16进制，
-		// echo strlen($lastSHA);exit;
-		//2前4个字节，32bit
-		$ret = array();
-        $step = 2;
-		$strLen = $num * $step;
-		if($dir==1){ //前往后
-			$shaData = substr($lastSHA, 0,$strLen);
-            // echo ($shaData);exit;
-			for($j =0;$j<$num;$j++){
-				$temp = substr($shaData,$j*$step,$step);
-				array_push($ret, hexdec($temp));
-			}	
-            // var_dump($ret);exit;
-		}
-		else{ //后往前
-			$start = strlen($lastSHA) - 1 - $strLen;
-			// echo strlen($f_charStr);exit;
-			$shaData = substr($lastSHA, $start);
-			for($j =0;$j<$num;$j++){
-				$temp = substr($shaData,$j*$step,$step);
-				array_push($ret, hexdec($temp));
-			}	
-        // var_dump($ret);exit;
-		}
-		return $ret;
+        // echo strlen($f_charStr);exit;
+        $firstSHA = $this->SHA256($f_charStr); //字符串
+        if($times>1){
+            $secondSHA = $this->SHA256($firstSHA);//字符串
+        }
+        else{
+            $secondSHA = $firstSHA;
+        }
+        // echo bin2hex($secondSHA);exit;
+        
+        $strLength = strlen($secondSHA);
+        if($dir==1){ //从前往后取指定个数
+            $retString = substr($secondSHA,0,$num);
+        }
+        else{ //取后面指定个数
+            $retString = substr($secondSHA,  $strLength-$num);
+        }
+        $byteOb = new \src\keypair\Bytes();
+        return $byteOb->getBytes($retString);
+
+
+
+
+        // 0815之前做法
+  //       // echo strlen($secondSHA);exit;
+  //       $lastSHA = bin2hex($secondSHA); //ascii转16进制，
+		// // echo strlen($lastSHA);exit;
+		// //2前4个字节，32bit
+		// $ret = array();
+  //       $step = 2;
+		// $strLen = $num * $step;
+		// if($dir==1){ //前往后
+		// 	$shaData = substr($lastSHA, 0,$strLen);
+  //           // echo ($shaData);exit;
+		// 	for($j =0;$j<$num;$j++){
+		// 		$temp = substr($shaData,$j*$step,$step);
+		// 		array_push($ret, hexdec($temp));
+		// 	}	
+  //           // var_dump($ret);exit;
+		// }
+		// else{ //后往前
+		// 	$start = strlen($lastSHA) - 1 - $strLen;
+		// 	// echo strlen($f_charStr);exit;
+		// 	$shaData = substr($lastSHA, $start);
+		// 	for($j =0;$j<$num;$j++){
+		// 		$temp = substr($shaData,$j*$step,$step);
+		// 		array_push($ret, hexdec($temp));
+		// 	}	
+  //       // var_dump($ret);exit;
+		// }
+		// return $ret;
 	}
 	/**
 	 * [hexEncode description]

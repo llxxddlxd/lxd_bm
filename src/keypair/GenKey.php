@@ -41,7 +41,9 @@ class GenKey  extends Base
 
 	}
 	
-
+	/**
+	 * [GenPairKey description]
+	 */
 	public function GenPairKey(){
 		$this->logger->addNotice("GenKey,GenPairKey");
 		// $str = explode(',', "218,55,159,1,17,236,24,183,207,250,207,180,108,87,224,39,189,99,246,85,138,120,236,78,228,233,41,192,124,109,156,104,235,66,194,24,30,19,80,117");
@@ -65,6 +67,7 @@ class GenKey  extends Base
 		
 		//3 地址
 		$this->publicRawKey = $pub->getRawKey();
+		// $this->publicRawKey = [21,118,76,208,23,224,218,117,50,113,250,38,205,82,148,81,162,27,130,83,208,1,240,212,54,18,225,158,198,50,87,10];
 		// var_dump($this->publicRawKey)."<br>";	
 		$add = new GenerateAddress($this->publicRawKey);	
 		$add->setAddress();
