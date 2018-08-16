@@ -38,13 +38,15 @@ class Account extends Base
         $sourceRawPriKeyString = $sourceRawPriKeyRet['rawKeyString'];
         $sourceRawPriBytes = $sourceRawPriKeyRet['rawKeyBytes'];
         $this->logger->addNotice("getNonce,1:".json_encode($sourceRawPriBytes));
-        //$sourceRawPubKey = $this->ED25519($sourceRawPriKey);
         $pub = new \src\keypair\GeneratePublicKey();
         $pub->setRawKey($sourceRawPriBytes);   
         $sourceRawPubKey = $pub->getRawKey();
         $pub->setPubKey();    
         $sourcePubKey = $pub->getPubKey(); 
         $this->logger->addNotice("getNonce,2:".($sourcePubKey));
+
+
+
         //开始
         $this->logger->addNotice("Account,active,sourceAddress:$sourceAddress,destAddress:$destAddress");
         $nonce = $this->getNonce($sourceAddress);
@@ -58,15 +60,15 @@ class Account extends Base
         $tran = new \Protocol\Transaction();
         $tran->setNonce($nonce);
         $tran->setSourceAddress($sourceAddress);
-        $tran->setMetadata(0x01);
+        $tran->setMetadata('test');
         $tran->setGasPrice(1000);
-        $tran->setFeeLimit(10000);
+        $tran->setFeeLimit(1000000);
         //2Operation
         $this->logger->addNotice("opers start");
         $opers = new RepeatedField(GPBType::MESSAGE, \Protocol\Operation::class);
         $oper = new \Protocol\Operation();
         $oper->setSourceAddress($sourceAddress);
-        $oper->setMetadata(0x01);
+        $oper->setMetadata('test');
         $oper->setType(1);/*          CREATE_ACCOUNT = 1;*/
         //3该数据结构用于创建账户
         $this->logger->addNotice("createAccount start");
@@ -75,7 +77,7 @@ class Account extends Base
         $createAccount->setInitBalance(10000000);
         $accountThreshold = new \Protocol\AccountThreshold();
         $accountThreshold->setTxThreshold(1);
-        $accountPrivilege = new \Protocol\accountPrivilege();
+        $accountPrivilege = new \Protocol\AccountPrivilege();
         $accountPrivilege->setMasterWeight(1);
         $accountPrivilege->setThresholds($accountThreshold);
         $createAccount->setPriv($accountPrivilege);
@@ -85,9 +87,10 @@ class Account extends Base
         $tran->setOperations($opers);
         //5序列化，转16进制
         $this->logger->addNotice("serialize start");
-        $serialTran = bin2hex($tran->serializeToString());
+        $serialTran = ($tran->serializeToString());
+        $serialTranHex = bin2hex($serialTran);
         // echo bin2hex($serialTran);exit;
-        $this->logger->addNotice("serialize,serialTran:".($serialTran));
+        $this->logger->addNotice("serialize,serialTran:".($serialTranHex));
         //解析用
         // $tranParse = new \Protocol\Transaction();Parses a protocol buffer contained in a string.
         // $tranParse->mergeFromString($serialTran);
@@ -104,11 +107,11 @@ class Account extends Base
         $this->logger->addNotice("sign,signData:$signDataHex");
         
         //7填充数据
-        $fill_data = $this->fillData($serialTran,$signDataHex,$sourcePubKey);
+        $fill_data = $this->fillData($serialTranHex,$signDataHex,$sourcePubKey);
         $this->logger->addNotice("fill_data,info".json_encode($fill_data));
 
         //8发送 
-        $transactionUrl = $confinfo['base']['testUrl'] . "submitTransaction" ;
+        $transactionUrl = $confinfo['base']['testUrl'] . "submitTransaction";
         $this->logger->addNotice("active,transactionUrl:$transactionUrl");
         $realData['items'] = array();
         array_push($realData['items'],$fill_data);
@@ -230,6 +233,15 @@ class Account extends Base
         }
       
      }
+     /**
+      * [getTransactionHistory description]
+      * @param  [type] $transactionHash [description]
+      * @return [type]                  [description]
+      */
+     public function getTransactionHistory($transactionHash){
+        // http://seed1.bumotest.io:26002/getTransactionHistory?hash=0326e8822d5e28d2790b6fdc8cfb3519bd9923560f58e2cfae3c4459db2c3cc3
+     }
+     
     // /**
     //   * [isAddresscheck description]
     //   * @return boolean [description]

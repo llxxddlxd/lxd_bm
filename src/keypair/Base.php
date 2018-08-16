@@ -226,7 +226,7 @@ abstract class Base{
             if(strlen($temp)<2){
                 $temp = "0".$temp;
             }
-            $this->logger->addWarning("hexEncode,i:$i,temp:".$temp);
+            // $this->logger->addWarning("hexEncode,i:$i,temp:".$temp);
  			$s .= $temp;
  		} 
 // 　　　  $str = "0x" . $s; 
