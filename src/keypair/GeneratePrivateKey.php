@@ -44,13 +44,14 @@ class GeneratePrivateKey extends Base{
 	public function setPriKey(){
 		//1 字节数组，256位，32个字节的数组
 		$randArray = $this->privateRawKey;
-
 		$this->logger->addNotice("setPriKey",$randArray);
 		// var_dump($randArray);
-		//2 version 固定？？	
+		
+		//2 version 固定
 		$version = $this->getVersion();
 		array_unshift($randArray,$version);
-		//3 prefix  固定？？
+		
+		//3 prefix  固定
 		$perfix = $this->getPrefix(); 
 		$randArray = array_merge($perfix,$randArray);
 		// var_dump($randArray);exit;
@@ -69,8 +70,6 @@ class GeneratePrivateKey extends Base{
 		$this->logger->addNotice("randArray",$randArray);
 		// $randArray = $tmpp; 
 		$charStr = $Bytes->toStr($randArray);
-		// $charStr = "vVAtScBEuzr1RAJNPMKECxjKxSzgkX0T9d48";
-		// echo json_encode($randArray);exit;
 		// echo $charStr.'   ,length:'.strlen($charStr);exit;
 		$this->privateKey= $this->base58Encode($charStr);
 		// echo $this->privateKey;exit;
@@ -121,11 +120,6 @@ class GeneratePrivateKey extends Base{
 // <= PHP 5.6
 // $mySecret = openssl_random_pseudo_bytes(32);
 // var_dump($mySecret);
-
-	 // 	$Bytes = new Bytes();
-		// $f_charStr = $Bytes->getBytes($mySecret);
-		// $f_charStr = [17,236,24,183,207,250,207,180,108,87,224,39,189,99,246,85,138,120,236,78,228,233,41,192,124,109,156,104,235,66,194,24];
-		// return $f_charStr;
 
 		$randArray= array();
 		for($i = 0;$i<32;$i++){

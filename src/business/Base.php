@@ -14,11 +14,6 @@ require $baseurl."vendor/autoload.php";
 require $baseurl."GPBMetadata/Common.php";
 require $baseurl."GPBMetadata/Chain.php";
 
-include $baseurl."Protocol/Transaction.php";
-include $baseurl."Protocol/Operation.php";
-include $baseurl."Protocol/OperationCreateAccount.php";
-include $baseurl."Protocol/AccountThreshold.php";
-include $baseurl."Protocol/AccountPrivilege.php";
 
 //log
 use Monolog\Logger;
@@ -27,18 +22,15 @@ use src\keypair\Bytes;
 
 //配置文件
 use conf\confController;
-use conf\errDesc;
+
 class Base{
     public $logger;
-    private $alphabet;
-    // private $privKey;
-    // private $pubKey;
-    // private $address;  
+    private $alphabet; 
+    public $baseBumoUrl = "http://seed1.bumotest.io:26002/";
 
     public function __construct()
     {
         
-        // $alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'; //传统
         $this->alphabet = '123456789AbCDEFGHJKLMNPQRSTuVWXYZaBcdefghijkmnopqrstUvwxyz'; //bumo   
         // create a log channel
         $log = new Logger('name');
@@ -46,59 +38,20 @@ class Base{
         $filepath= dirname(dirname(dirname(__FILE__))).'/log/'.$date.'.log';
         $log->pushHandler(new StreamHandler( $filepath, Logger::DEBUG));
 
-        // add records to the log
-        // $log->addError('Bar');
         $this->logger = $log;        
         
     }
-    // /**
-    //  * [setPriKey description]
-    //  * @param [type] $key [description]
-    //  */
-    //  public function setPriKey($key){
-    //     $this->logger->addNotice("business-base,privatekey:$key");
-    //     $this->privKey = $key;
-    //  }
-    //  /**
-    //   * [setPubKey description]
-    //   * @param [type] $key [description]
-    //   */
-    //  public function setPubKey($key){
-    //     $this->logger->addNotice("business-base,publickey:$key");
-    //     $this->pubKey = $key;
-    //  }
-    //  /**
-    //   * [setaddress description]
-    //   * @param  [type] $address [description]
-    //   * @return [type]          [description]
-    //   */
-    //  public function setaddress($address){
-    //     $this->logger->addNotice("business-base,address:$address");
-    //     $this->address = $address;
-    //  } 
-     
+ 
 	 
     /**
      * [getNonce description]
      * @return [type] [description]
      */
-    public function getNonce($address=''){
-        $conf = new confController();
-        $info = $conf->getConfig();   
-        $this->logger->addNotice("getNonce,config",$info);
-        if($address){
-            $sourceAddress = $address;
-        }
-        else{
-            $sourceAddress = $info['base']['sourceAddress'];
-        }
-        $baseUrl = $info['base']['testUrl'];
-        $baseUrl .= "getAccount?address="  .$sourceAddress;
-
-        $ret = $this->requestInfo($baseUrl);
+    public function getNonce($address){
+        $ret = $this->requestInfo($address);
         if($ret['status'] == 0){
-            if(isset($ret['data']->result->nonce))
-                return $ret['data']->result->nonce;
+            if(isset($ret['data']->nonce))
+                return $ret['data']->nonce;
             else
                 return 0;
         }
@@ -108,102 +61,8 @@ class Base{
 
 
     }
-    /**
-     * [requestInfo description]
-     * @param  [type] $baseUrl [description]
-     * @return [type]          [description]
-     */
-    public function requestInfo($baseUrl){
-        $this->logger->addNotice("requestInfo,baseUrl:$baseUrl");
-        $result = $this->request_get($baseUrl);
-        $this->logger->addNotice("requestInfo,result:$result");
-        $ret = array();
-        $ret['status'] = -1;
-        if($result){
-            $resultArr = json_decode($result);
-            $error_code = isset($resultArr->error_code)?$resultArr->error_code:"";
-            if($error_code===0){
-                $ret['status'] = 0;
-                $ret['data'] = $resultArr;
-
-            } 
-        }
-        return $ret;
-    }
-
-    /**
-     * 模拟post进行url请求
-     * @param string $url
-     * @param string $param
-     */
-    public function request_post($url = '', $param = '') {
-        if (empty($url) || empty($param)) {
-            return false;
-        }
-        $param = json_encode($param);
   
-        $postUrl = $url;
-        $curlPost = $param;
-        $ch = curl_init();//初始化curl
-        curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json")); 
-        curl_setopt($ch, CURLOPT_URL,$postUrl);//抓取指定网页
-        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
-        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
-        $data = curl_exec($ch);//运行curl
-
-        $httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE); 
-        curl_close($ch);
-        $this->logger->addWarning("request_post,code:".$httpCode);
-        return $data;
-    }
-
-    /**
-     * [request_get description]
-     * @param  [type] $url [description]
-     * @return [type]      [description]
-     */
-    public function request_get($url){
-        $curl = curl_init(); // 启动一个CURL会话
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);  // 从证书中检查SSL加密算法是否存在
-        $tmpInfo = curl_exec($curl);     //返回api的json对象
-        //关闭URL请求
-        curl_close($curl);
-        return $tmpInfo;    //返回json对象
-    }
-
-    /**
-     * [responseJson description]
-     * @param  [type]  $data   [description]
-     * @param  integer $status [description]
-     * @return [type]          [description]
-     */
-    public function responseJson($data = null, $status = 0){
-        $content = null;
-        if(is_array($data) || is_null($data)){
-            $respArr = Array(
-                "status" => $status,
-                "desc" => errDesc::getErrorDesc($status)
-            );
-            if($data){
-                $respArr = array_merge($respArr, $data);
-            }
-            $this->logger->addNotice("response success data",$respArr);
-            header("Content-Type:text/html;charset=utf-8");
-            echo urldecode(json_encode($respArr));
-        }else{
-            $this->logger->addError("response unknown data type");
-            // header("Content-Type:text/html;charset=utf-8");
-            // echo urldecode(json_encode($result));
-        }
-    }
-
-
+  
       /**
      * [ED25519 description]
      */
@@ -404,6 +263,74 @@ class Base{
         $ret['rawKeyBytes'] = $rawKeyBytes;
         return $ret;
 
+    }
+
+      /**
+     * 模拟post进行url请求
+     * @param string $url
+     * @param string $param
+     */
+    public function request_post($url = '', $param = '') {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+        $param = json_encode($param);
+  
+        $postUrl = $url;
+        $curlPost = $param;
+        $ch = curl_init();//初始化curl
+        curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json")); 
+        curl_setopt($ch, CURLOPT_URL,$postUrl);//抓取指定网页
+        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        $data = curl_exec($ch);//运行curl
+
+        $httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE); 
+        curl_close($ch);
+        $this->logger->addWarning("request_post,code:".$httpCode);
+        return $data;
+    }
+
+    /**
+     * [request_get description]
+     * @param  [type] $url [description]
+     * @return [type]      [description]
+     */
+    public function request_get($url){
+        $curl = curl_init(); // 启动一个CURL会话
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);  // 从证书中检查SSL加密算法是否存在
+        $tmpInfo = curl_exec($curl);     //返回api的json对象
+        //关闭URL请求
+        curl_close($curl);
+        return $tmpInfo;    //返回json对象
+    }
+
+    /**
+     * [requestInfo description]
+     * @return [type] [description]
+     */
+    public function requestInfo($address){
+        $realUrl = $this->baseBumoUrl . "getAccount?address="  . $address;
+        $this->logger->addNotice("Base,requestInfo:$realUrl");
+        $result = $this->request_get($realUrl);
+        $this->logger->addNotice("requestInfo,result:$result");
+        $ret = array();
+        $ret['status'] = -1;
+        if($result){
+            $resultArr = json_decode($result);
+            $error_code = isset($resultArr->error_code)?$resultArr->error_code:"";
+            if($error_code===0){
+                $ret['status'] = 0;
+                $ret['data'] = $resultArr->result;
+            } 
+        }
+        return $ret;
     }
 }
 

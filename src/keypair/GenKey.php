@@ -60,15 +60,13 @@ class GenKey  extends Base
 		$pub = new GeneratePublicKey();
 		$pub->setRawKey($this->privateRawKey);		
 		$this->publicRawKey = $pub->getRawKey();		
+		// var_dump($this->publicRawKey)."<br>";	
 		$pub->setPubKey();		
 		$this->publicKey = $pub->getPubKey();	
 		$this->logger->addNotice("publicKey",['publicKey:'=>$this->publicKey]);	
 		// echo strlen($pub->getPubKey())."<br>";		
 		
 		//3 地址
-		$this->publicRawKey = $pub->getRawKey();
-		// $this->publicRawKey = [21,118,76,208,23,224,218,117,50,113,250,38,205,82,148,81,162,27,130,83,208,1,240,212,54,18,225,158,198,50,87,10];
-		// var_dump($this->publicRawKey)."<br>";	
 		$add = new GenerateAddress($this->publicRawKey);	
 		$add->setAddress();
 		$this->address = $add->getAddress();	

@@ -65,12 +65,12 @@ class GeneratePublicKey extends Base{
 	public function setPubKey(){
 		//1ED25519 转换，生成rawPubkey
 		$rawPubkey  = $this->publicRawKey;
-		// var_dump($rawPubkey);exit;
-		//2 version 固定？？	
+		
+		//2 version 固定
 		$version = $this->getVersion();
 		array_unshift($rawPubkey,$version);
 
-		//3prefix  固定？？
+		//3prefix  固定
 		$perfix = $this->getPrefix();
 		array_unshift($rawPubkey,$perfix);
 
@@ -81,9 +81,6 @@ class GeneratePublicKey extends Base{
 
 		$rawPubkey = array_merge($rawPubkey,$getCheckSum);
 		
-		// foreach ($getCheckSum as $key => $value) {
-		// 	array_push($rawPubkey, $value);
-		// }
 		// var_dump($rawPubkey);exit;
 		//5 16进制编码  字符数组转字符串
 		$charStr = $Bytes->toStr($rawPubkey);

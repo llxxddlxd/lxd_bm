@@ -17,7 +17,7 @@ abstract class Base{
     function __construct(){
 
         // $alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'; //传统
-        $this->alphabet = '123456789AbCDEFGHJKLMNPQRSTuVWXYZaBcdefghijkmnopqrstUvwxyz'; //bumo   
+        $this->alphabet = '123456789AbCDEFGHJKLMNPQRSTuVWXYZaBcdefghijkmnopqrstUvwxyz'; //bumo 字母表
 
         // create a log channel
         $log = new Logger('name');
@@ -25,7 +25,6 @@ abstract class Base{
         $filepath= dirname(dirname(dirname(__FILE__))).'/log/'.$date.'.log';
         $log->pushHandler(new StreamHandler( $filepath, Logger::DEBUG));
 
-        // $log->addError('Bar');
         $this->logger = $log;
     }
 	/**
@@ -153,26 +152,6 @@ abstract class Base{
 
 
     /**
-     * [ED25519Sign description]
-     */
-    public function ED25519Sign($byteStr){
-        // $signature = ed25519_sign($message, $mySecret, $myPublic);
-    } 
-
-    /**
-     * [ED25519Check description]
-     */
-    public function ED25519Check($byteStr){
-        // $status = ed25519_sign_open($message,  $myPublic, $signature);
-        // if($status==TRUE){
-        // success
-        // }
-        // else{
-        // fail
-        // }
-    }
-
-     /**
     * 将二进制转换成字符串
     * @param type $str
     * @return type
