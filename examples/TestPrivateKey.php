@@ -1,25 +1,31 @@
 <?php
 namespace examples;
 use src\keypair\GenKey;
-use src\business\Account;
+use examples\Base;
+use conf\confController; 
+// use src\business\Account;
 
-class TestPrivateKey{
+class TestPrivateKey extends base {
+	
+   public function __construct(){
+        parent::__construct();
+        $conf = new confController();
+        $this->confInfo = $conf->getConfig();
+        $this->logger->addNotice("getInfo,config",$this->confInfo);
+        
+    }
+
 	public function testKeyPair(){ 
-
 		$genKey = new GenKey;
 		$genKey->genPairKey();
-		$priKey = $genKey->getPrivateKey();
-		$pubKey = $genKey->getPublicKey();
-		$address = $genKey->getAddress();
-		
-        $rawPivateKey = $genKey->getRawPrivateKey();
-        $rawPublicKey = $genKey->getRawPublicKey();
-		$ret['priKey'] = $priKey;
-		$ret['pubKey'] = $pubKey;
-		$ret['address'] = $address;
-		$ret['rawPivateKey'] = $rawPivateKey;
-		$ret['rawPublicKey'] = $rawPublicKey;
-		return $ret;
+		$ret['priKey'] = $genKey->getPrivateKey();
+		$ret['pubKey'] = $genKey->getPublicKey();
+		$ret['address'] = $genKey->getAddress();
+		$ret['rawPivateKey'] = $genKey->getRawPrivateKey();
+		$ret['rawPublicKey'] = $genKey->getRawPublicKey();
+		$retData['status'] = 0;
+		$retData['data'] = $ret;
+        return $this->responseJson($retData,0);
 	}
 }
 
