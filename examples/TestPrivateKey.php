@@ -20,9 +20,7 @@ class TestPrivateKey extends base {
 		$genKey->genPairKey();
 		$ret['priKey'] = $genKey->getPrivateKey();
 		$ret['pubKey'] = $genKey->getPublicKey();
-		$ret['address'] = $genKey->getAddress();
-		$ret['rawPivateKey'] = $genKey->getRawPrivateKey();
-		$ret['rawPublicKey'] = $genKey->getRawPublicKey();
+		$ret['address'] = $genKey->getAddress(); 
 		$retData['status'] = 0;
 		$retData['data'] = $ret;
         return $this->responseJson($retData,0);

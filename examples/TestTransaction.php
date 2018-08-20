@@ -22,48 +22,19 @@ class TestTransaction extends base{
      * @return [type] [description]
      */
 	public function testActivate(){
+
         //0获取配置文件信息，用来测试
         $sourceAddress = $this->confInfo['base']['sourceAddress'];
         $sourcePriKey = $this->confInfo['base']['sourcePriKey'];
         $this->logger->addNotice("testActivate,start,sourceAddress:$sourceAddress,sourcePriKey:$sourcePriKey");
-        $Account = new Account();
-        //1获取nonce
-        $nonceRet = $Account->getNonceInfo($sourceAddress);        
-        if($nonceRet['status']!=0){
-            return $this->responseJson(null,3004);            
-        }
-        $nonce = $nonceRet['data']['nonce'];
-        $this->logger->addNotice("testActivate,start,nonce:$nonce");
-
-        //2生成blob
-        $Transaction = new Transaction();
-        $destAddress = "buQjSYyZyv2J5Tk92nKfakECJuayyRZozfCt";
+        $destAddress = "buQhHr2NjYquHCNYtRcWoCPqfYiVKek4CuSD";
         $initBalance = 10000000;
-        $metaData = $opMetaData="test";
-        $gasPrice = 1000;
-        $feeLimit = 10000000;
-        $transactionBlob = $Transaction->activateAccountTB($nonce,$sourceAddress,$metaData,$gasPrice,$feeLimit,$opMetaData,$destAddress,$initBalance);
-        $this->logger->addNotice("testActivate,transactionblob:".json_encode($transactionBlob));
-       
-        //3签名
-        $transactionSerializeHex = $transactionBlob['transactionSerializeHex'];
-        $transactionSerialize = $transactionBlob['transactionSerialize'];
-        $signInfo = $Transaction->transagtionBlobSign($transactionSerializeHex,$transactionSerialize,$sourcePriKey);
-        $signDataHex = $signInfo['signDataHex'];
-        $sourcePubKey = $signInfo['sourcePubKey'];
 
-        //4发送
-        $retPost = $Transaction->submitTransaction($sourcePubKey,$transactionSerializeHex,$signDataHex);
-        $retArr = json_decode($retPost,true);
-        if($retArr['success_count']==1){
-            //success
-            return $this->responseJson(null,0);
-        }
-        else{
-            //fail
-            return $this->responseJson(null,3001);
-        }
+        $Account = new Account();
+        $retArr = $Account->activateAddress($sourceAddress,$sourcePriKey,$destAddress,$initBalance);
+        return $this->responseJson(null,$retArr['status']);
 	}
+
     /**
      * [addressInfo description]
      * @return [type] [description]
@@ -182,11 +153,22 @@ class TestTransaction extends base{
 
     } 
 
-    // public function checkPirvateKey($address){
-    //     $Account = new Account();
-    //     $Account->checkPirvateKey($address);
+    /**
+     * [设置地址的metadata]
+     */
+    public function setMetadata(){
+        //0获取配置文件信息，用来测试
+        $sourceAddress = $this->confInfo['base']['sourceAddress'];
+        $sourcePriKey = $this->confInfo['base']['sourcePriKey'];
+        $this->logger->addNotice("setMetadata,start,sourceAddress:$sourceAddress,sourcePriKey:$sourcePriKey");
+        $Account = new Account();
+        $metadataArray['metadataKey'] = '1';
+        $metadataArray['metadataValue'] = '2';
+        $metadataArray['metadataVersion'] = '3';
+        $ret = $Account->setMetadata($sourceAddress,$sourcePriKey,$metadataArray);
+        return $this->responseJson(null,$retArr['status']);
 
-    // }
+    }
 	
 }
 
